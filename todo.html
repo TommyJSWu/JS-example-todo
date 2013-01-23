@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JavaScript todolist</title>
+        <link rel="stylesheet" href="css/reset.css" type="text/css">
+        <link rel="stylesheet" href="css/todo.css" type="text/css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css" type="text/css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="hero-unit">
+                <h1>TODO</h1>
+                <p class="muted">
+                A simple JavaScript todolist. Click on a item to edit it. 
+                </p>
+                <input id="todo_input" type="text" placeholder="Something todo?">
+                <ul id="todolist" class='media-list'>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var todo_input = document.getElementById('todo_input'),
+                todolist   = document.getElementById('todolist');
+            todo_input.addEventListener('keydown', function(e)
+            {
+                if(e.keyCode == 13 && todo_input.value !== '')
+                {
+                    var new_item = document.createElement('li'),
+                        close_button = document.createElement('button');
+
+                    new_item.innerHTML = '<span>' + todo_input.value + '</span>';
+                    new_item.setAttribute('contenteditable', true);
+                    close_button.className = 'close pull-right';
+                    close_button.innerHTML = '&times;';
+                    close_button.style.visibility = 'hidden';
+                    new_item.addEventListener('mouseover', function()
+                    {
+                        close_button.style.visibility = 'visible';
+                    });
+                    new_item.addEventListener('mouseout', function()
+                    {
+                        close_button.style.visibility = 'hidden';
+                    });
+                    close_button.addEventListener('click', function()
+                    {
+                        todolist.removeChild(new_item);
+                    });
+                    new_item.insertBefore(close_button, new_item.firstChild);
+                                         
+                    if(todolist.hasChildNodes())
+                    {
+                        todolist.insertBefore(new_item, todolist.firstChild);
+                    }
+                    else 
+                    {
+                        todolist.appendChild(new_item);
+                    }
+                    todo_input.value = '';
+                }
+            });
+        </script>
+    </body>
+</html>
